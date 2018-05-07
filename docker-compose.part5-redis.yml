@@ -3,7 +3,7 @@ services:
   web:
     image: edtasixm11/getstarted:part2 
     deploy:
-      replicas: 5
+      replicas: 3
       restart_policy:
         condition: on-failure
       resources:
@@ -23,6 +23,29 @@ services:
     deploy:
       placement:
         constraints: [node.role == manager]
+    networks:
+      - webnet
+  portainer:
+    image: portainer/portainer
+    ports:
+            - "9000:9000"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    networks:
+      - webnet
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - "/home/docker/data:/data"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    command: redis-server --appendonly yes
     networks:
       - webnet
 networks:
