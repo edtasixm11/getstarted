@@ -3,7 +3,7 @@ services:
   web:
     image: edtasixm11/getstarted:part2 
     deploy:
-      replicas: 3
+      replicas: 5
       restart_policy:
         condition: on-failure
       resources:
